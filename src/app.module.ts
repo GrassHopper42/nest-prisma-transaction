@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
+import { AopModule } from '@toss/nestjs-aop';
 import { ClsModule } from 'nestjs-cls';
-import { DecoratorRegister } from './decorator.register';
 import { PrismaService } from './prisma.service';
+import { TransactionDecorator } from './transaction.decorator';
 import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
@@ -13,11 +14,11 @@ import { UserService } from './user.service';
     ClsModule.forRoot({
       global: true,
     }),
+    AopModule,
   ],
   controllers: [UserController],
   providers: [
     UserService,
-    DecoratorRegister,
     {
       provide: PrismaService,
       useFactory: () => {
@@ -28,6 +29,7 @@ import { UserService } from './user.service';
       },
     },
     UserRepository,
+    TransactionDecorator,
   ],
 })
 export class AppModule {}

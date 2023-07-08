@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { Transactionl } from './transaction.decorator';
+import { Transactional } from './transaction.decorator';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
   constructor(private readonly repository: UserRepository) {}
 
-  @Transactionl()
+  @Transactional()
   async test(users: Pick<User, 'email' | 'name'>[], fail: boolean) {
     const user1 = users.reverse().pop();
     if (!user1) throw new Error('User not found');
